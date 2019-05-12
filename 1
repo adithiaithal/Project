@@ -1,0 +1,107 @@
+import java.util.*;
+
+class crc
+{
+   public static int[] append(int[] data,int[] toAppend)
+   {
+      int size = data.length+toAppend.length;
+      int newData[] = new int[size];
+      for(int i=0;i<size;i++)
+         newData[i] = (i<data.length)?data[i]:toAppend[i-data.length];
+      return newData;
+   }
+   
+   public static int[] divide(int[] data,int[] divisor)
+   {
+      int cur=0,i,j;
+      while(true)
+      {
+         if(data[cur]==1)
+         {
+               for(i=0;i<divisor.length;i++)
+               {
+                  data[cur+i] = data[cur+i]^divisor[i];
+               }
+               cur++;
+         }
+         else
+         {
+            cur++;
+         }      
+         if(cur+divisor.length>data.length)
+            break;
+      }
+      int[]ans = new int[data.length-cur];
+      for(i=cur,j=0;i<data.length;i++,j++)
+         ans[j] = data[i];
+      
+      return ans;
+   }
+   
+   static boolean check(int[] data,int[] divisor)
+   {
+      int[] rem = divide(data,divisor);
+      for(int i=0;i<rem.length;i++)
+         if(rem[i]==1)
+            return false;
+      
+      return true;
+   }
+   public static void main(String[] args)
+   {
+      int n,m,i,j;
+      Scanner sc = new Scanner(System.in);
+      
+      System.out.println("Enter number of data bits : ");
+      n = sc.nextInt();
+      int[] data = new int[n];
+            
+      for(i=0;i<n;i++)
+         data[i] = sc.nextInt();
+         
+      System.out.println("Enter no. of divisor bits : ");
+      m = sc.nextInt();
+      
+      int[] divisor = new int[m];
+      
+      System.out.println("Enter divisor bits : ");
+      for(i=0;i<m;i++)
+         divisor[i] = sc.nextInt();
+      
+      
+      //Append m-1 0's to data
+      int[] zeros = new int[m-1];
+      int[] newData = append(data,zeros);
+      
+      //Find the remainder
+      int[] rem = divide(newData,divisor);
+      
+      //Append remainder to get the actual value to be sent
+      int[] ans = append(data,rem);
+      
+      //To send
+      System.out.print("Sent     : ");
+      for(i=0;i<ans.length;i++)
+      {
+         System.out.print(ans[i]+" ");
+      }
+      System.out.println();
+      
+      //Error
+      //ans[2] = (ans[2]==1)?0:1;
+      
+      //Recieved
+      System.out.print("Recieved : ");
+      for(i=0;i<ans.length;i++)
+      {
+         System.out.print(ans[i]+" ");
+      }
+      System.out.println();
+      
+      //Check For correctness
+      if(check(ans,divisor))
+         System.out.println("Correcct");
+      else
+         System.out.println("Incorrect");
+   }
+}
