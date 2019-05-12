@@ -1,0 +1,178 @@
+tr<-read.transactions("textfilepath",format="basket",sep=",")
+abcd.txt contains sets and we need to find "support" and "confidence" (Refer video)
+
+inspect(tr)
+
+image(tr)
+
+rules<-apriori(tr,parameter=list(supp=0.5,conf=0.5))
+
+inspect(rules)
+
+summary(rules)
+
+
+
+
+
+mushroom <- read.csv("C:/Users/KARIGIRI/Desktop/mushroom.data")
+View(mushroom)
+
+Split the data into training set and testing set (67% for training and 33% for testing)
+There are 22 predictor variables in the dataset
+p is the target variable
+table(mushroom$p)
+   e    p 
+4208 3915 
+Poisonous mushrooms are less in number than edible mushrooms
+
+Partition the dataset
+data <- sample(2,nrow(mushroom),replace = TRUE,prob = c(0.67,0.33))
+trainD <- mushroom[data==1,]
+testD <- mushroom[data==2,]
+nrow(trainD)
+nrow(testD)
+
+Add the library required
+library(e1071)
+library(rminer)
+
+Let us make the model using NaiveBayes function present in e1071 library
+e1071model <- naiveBayes(p~.,data=trainD)
+e1071model
+        e         p 
+0.5176385 0.4823615 
+This is the probability of e and p (probablility of edible is more)
+
+Add prediction model and test it using test dataset
+e1071prediction <- predict(e1071model,testD)
+mmetric(testD$p,e1071prediction,c("ACC","PRECISION","TPR","F1"))
+       ACC PRECISION1 PRECISION2       TPR1       TPR2        F11        F12 
+  93.81599   89.86842   99.11661   99.27326   87.93103   94.33702   93.18937 
+
+
+
+
+
+A1=c(0,0)
+A2=c(1,1)
+A3=c(2,2)
+
+# Class B cases
+B1=c(6,6)
+B2=c(5.5,7)
+B3=c(6.5,5)
+
+# Build the classification matrix
+train=rbind(A1,A2,A3,B1,B2,B3)
+
+# Class labels vector (attached to each class instance)
+cl<-factor(c(rep("A",3),rep("B",3)))
+
+# The object to be classified 
+test=c(4,4)
+
+# load the class package that holds the knn() function
+library(class)
+
+# call knn() and get its summary
+summary(knn(train,test,cl,k=1))
+A B 
+0 1 
+
+# end of listing
+
+library(class)
+train<-rbind(iris3[1:25,,1],iris3[1:25,,2],iris3[1:25,,3])
+test<-rbind(iris3[26:50,,1],iris3[26:50,,2],iris3[26:50,,3])
+cl<-factor(c(rep("s",25),rep("c",25),rep("v",25)))
+knn(train,test,cl,k=3,prob = TRUE)
+Levels: c s v
+
+attributes(.Last.value)
+$levels
+[1] "c" "s" "v"
+
+$class
+[1] "factor"
+
+$prob
+
+
+
+
+
+import numpy as np
+X = np.array(([2, 9], [1, 5], [3, 6]), dtype=float)
+y = np.array(([92], [86], [89]), dtype=float)
+X = X/np.amax(X,axis=0) # maximum of X array longitudinally
+y = y/100
+#Sigmoid Function
+def sigmoid (x):
+return 1/(1 + np.exp(-x))
+#Derivative of Sigmoid Function
+def derivatives_sigmoid(x):
+return x * (1 - x)
+#Variable initialization
+epoch=5000 #Setting training iterations
+lr=0.1 #Setting learning rate
+inputlayer_neurons = 2 #number of features in data set
+hiddenlayer_neurons = 3 #number of hidden layers neurons
+output_neurons = 1 #number of neurons at output layer
+
+
+
+#weight and bias initialization
+wh=np.random.uniform(size=(inputlayer_neurons,hiddenlayer_neur
+ons))
+bh=np.random.uniform(size=(1,hiddenlayer_neurons))
+wout=np.random.uniform(size=(hiddenlayer_neurons,output_neuro
+n s))
+bout=np.random.uniform(size=(1,output_neurons))
+
+#draws a random range of numbers uniformly of dim x*y
+for i in range(epoch):
+#Forward Propogation
+hinp1=np.dot(X,wh)
+hinp=hinp1 + bh
+hlayer_act = sigmoid(hinp)
+outinp1=np.dot(hlayer_act,wout)
+outinp= outinp1+ bout
+output = sigmoid(outinp)
+
+#Backpropagation
+EO = y-output
+outgrad = derivatives_sigmoid(output)
+d_output = EO* outgrad
+EH = d_output.dot(wout.T)
+#how much hidden layer wts contributed to error
+hiddengrad = derivatives_sigmoid(hlayer_act)
+d_hiddenlayer = EH * hiddengrad
+# dotproduct of nextlayererror and currentlayerop
+wout += hlayer_act.T.dot(d_output) *lr
+wh += X.T.dot(d_hiddenlayer) *lr
+print(&quot;Input: \n&quot; + str(X))
+print(&quot;Actual Output: \n&quot; + str(y))
+print(&quot;Predicted Output: \n&quot; ,output)
+
+
+Output:
+Input:
+[[0.66666667 1. ]
+[0.33333333 0.55555556]
+[1. 0.66666667]]
+Actual Output:
+[[0.92]
+[0.86]
+[0.89]]
+Predicted Output:
+[[0.89726759]
+[0.87196896]
+[0.9000671]]
+
+
+
+
+
+
+
