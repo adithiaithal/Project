@@ -1,0 +1,254 @@
+import java.util.*;
+
+class crc
+{
+   public static int[] append(int[] data,int[] toAppend)
+   {
+      int size = data.length+toAppend.length;
+      int newData[] = new int[size];
+      for(int i=0;i<size;i++)
+         newData[i] = (i<data.length)?data[i]:toAppend[i-data.length];
+      return newData;
+   }
+   
+   public static int[] divide(int[] data,int[] divisor)
+   {
+      int cur=0,i,j;
+      while(true)
+      {
+         if(data[cur]==1)
+         {
+               for(i=0;i<divisor.length;i++)
+               {
+                  data[cur+i] = data[cur+i]^divisor[i];
+               }
+               cur++;
+         }
+         else
+         {
+            cur++;
+         }      
+         if(cur+divisor.length>data.length)
+            break;
+      }
+      int[]ans = new int[data.length-cur];
+      for(i=cur,j=0;i<data.length;i++,j++)
+         ans[j] = data[i];
+      
+      return ans;
+   }
+   
+   static boolean check(int[] data,int[] divisor)
+   {
+      int[] rem = divide(data,divisor);
+      for(int i=0;i<rem.length;i++)
+         if(rem[i]==1)
+            return false;
+      
+      return true;
+   }
+   public static void main(String[] args)
+   {
+      int n,m,i,j;
+      Scanner sc = new Scanner(System.in);
+      
+      System.out.println("Enter number of data bits : ");
+      n = sc.nextInt();
+      int[] data = new int[n];
+            
+      for(i=0;i<n;i++)
+         data[i] = sc.nextInt();
+         
+      System.out.println("Enter no. of divisor bits : ");
+      m = sc.nextInt();
+      
+      int[] divisor = new int[m];
+      
+      System.out.println("Enter divisor bits : ");
+      for(i=0;i<m;i++)
+         divisor[i] = sc.nextInt();
+      
+      
+      //Append m-1 0's to data
+      int[] zeros = new int[m-1];
+      int[] newData = append(data,zeros);
+      
+      //Find the remainder
+      int[] rem = divide(newData,divisor);
+      
+      //Append remainder to get the actual value to be sent
+      int[] ans = append(data,rem);
+      
+      //To send
+      System.out.print("Sent     : ");
+      for(i=0;i<ans.length;i++)
+      {
+         System.out.print(ans[i]+" ");
+      }
+      System.out.println();
+      
+      //Error
+      //ans[2] = (ans[2]==1)?0:1;
+      
+      //Recieved
+      System.out.print("Recieved : ");
+      for(i=0;i<ans.length;i++)
+      {
+         System.out.print(ans[i]+" ");
+      }
+      System.out.println();
+      
+      //Check For correctness
+      if(check(ans,divisor))
+         System.out.println("Correcct");
+      else
+         System.out.println("Incorrect");
+   }
+}
+
+
+
+import java.util.*;
+import java.math.*;
+class dist{
+   static void func()
+   {
+     int n;
+     
+     Scanner in = new Scanner(System.in);
+     System.out.println("Enter no.of nodes");
+     n = in.nextInt();
+     int [][]a = new int[n][n];
+     int [][]d = new int[n][n];
+     System.out.println("Adjacency matrix");
+     for(int i=0;i<n;i++)
+     {
+      for(int j=0;j<n;j++)
+      {
+        a[i][j] = in.nextInt();
+        d[i][j] = a[i][j];
+      }
+     }
+     
+     for(int i=0;i<n;i++)
+     {
+      for(int j=0;j<n;j++)
+      {
+       for(int k=0;k<n;k++)
+       { 
+         a[j][k] = Math.min(a[j][k], a[j][i]+a[i][k]);
+       }
+      }
+     }
+     
+     System.out.println("Routing Table");
+     for(int i=0;i<n;i++)
+     {
+      for(int j=0;j<n;j++)
+      {
+        System.out.print(a[i][j]+ " ");
+        
+      }
+      System.out.println();
+     }
+
+
+    System.out.println("Enter nodes to break");
+    int x = in.nextInt();
+    int y = in.nextInt();
+    d[x][y] = 999;
+    d[y][x] = 999;
+    
+    for(int i=0;i<n;i++)
+     {
+      for(int j=0;j<n;j++)
+      {
+       for(int k=0;k<n;k++)
+       { 
+         d[j][k] = Math.min(d[j][k], d[j][i]+d[i][k]);
+       }
+      }
+     }
+
+
+   System.out.println("Routing Table");
+     for(int i=0;i<n;i++)
+     {
+      for(int j=0;j<n;j++)
+      {
+        System.out.print(d[i][j]+ " ");
+        
+      }
+      System.out.println();
+     }
+   }
+ 
+  public static void main(String[]args)
+  {
+    func();
+  }
+ }
+ 
+ 
+ 
+ 
+ from socket import *
+serverName = "127.0.0.1"
+serverPort = 12000
+clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket.connect((serverName,serverPort))
+sentence = input("Enter file name")
+
+clientSocket.send(sentence.encode())
+filecontents = clientSocket.recv(1024).decode()
+print ('From Server:', filecontents)
+clientSocket.close()
+
+from socket import *
+serverName="127.0.0.1"
+serverPort = 12000
+serverSocket = socket(AF_INET,SOCK_STREAM)
+serverSocket.bind((serverName,serverPort))
+serverSocket.listen(1)
+print ("The server is ready to receive")
+while 1:
+    connectionSocket, addr = serverSocket.accept()
+    sentence = connectionSocket.recv(1024).decode()
+    
+    file=open(sentence,"r")
+    l=file.read(1024)
+  
+    connectionSocket.send(l.encode())
+    file.close()
+    connectionSocket.close()
+
+
+
+
+
+from socket import *
+serverName = "127.0.0.1"
+serverPort = 12000
+clientSocket = socket(AF_INET, SOCK_DGRAM)
+
+sentence = input("Enter message")
+clientSocket.sendto(bytes(str(sentence),"utf-8"),(serverName, serverPort))
+filecontents,serverAddress = clientSocket.recvfrom(2048)
+print ('From Server:', filecontents)
+
+clientSocket.close()
+
+
+from socket import *
+serverPort = 12000
+serverSocket = socket(AF_INET, SOCK_DGRAM)
+serverSocket.bind(("127.0.0.1", serverPort))
+print ("The server is ready to receive")
+while 1:
+     sentence,clientAddress = serverSocket.recvfrom(2048)
+    
+     serverSocket.sendto(bytes(str(sentence),"utf-8"),clientAddress)
+     print("sent back to client",sentence)
+     
+
+
