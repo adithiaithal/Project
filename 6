@@ -466,5 +466,62 @@ namespace ConsoleApp1
 }
 
 
+using System;
+using System.Windows.Forms;
+namespace BasicMathLibrary
+{
+public class BasicMath
+{
+int x, y;
+public BasicMath()
+{
+x = y = 0;
+}
+public BasicMath(int x, int y)
+{
+this.x = x;
+this.y = y;
+}
+public void calculate()
+{
+MessageBox.Show("You are using BasicMathLibrary.dll !");
+Console.WriteLine("{0} + {1} = {2}", x, y, x + y);
+Console.WriteLine("{0} - {1} = {2}", x, y, x - y);
+Console.WriteLine("{0} * {1} = {2}", x, y, x * y);
+Console.WriteLine("{0} / {1} = {2}", x, y, x / y);
+}
+}
+}
+
+using System;
+using BasicMathLibrary;
+namespace CShClient
+{
+class Program
+{
+static void Main(string[] args)
+{
+BasicMath bm = new BasicMath(100,50);
+bm.calculate();
+Console.ReadKey();
+}
+}
+}
+
+
+
+Imports BasicmathLibrary1
+Module Module1
+
+    Sub Main()
+        Dim dm As New BasicMath(100, 50)
+        dm.calculate()
+        Console.ReadKey()
+
+    End Sub
+
+End Module
+
+
 
 
