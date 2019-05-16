@@ -1,0 +1,199 @@
+import random
+
+def gcd(a,b):
+    """Compute the greatest common divisor of a and b"""
+    while b > 0:
+        a, b = b, a % b
+    return a
+
+def is_prime(num):
+    if num > 1:
+       for i in range(2,num):
+           if (num % i) == 0:
+               break
+           else:
+               return True
+    else:
+       return False
+
+def main():
+    print ("Sender's Side")
+    print ("-------------")
+    #key = int(raw_input("Enter Key: "))
+    #message = raw_input("Enter message: ")
+    key = int(input("Enter Key: "))
+    message = input("Enter message: ")
+    encrypted_message = ""
+    for char in message:
+        encrypted_message += chr(ord(char) + key)
+
+    print ("Encrypted message:", encrypted_message)
+
+    p = int(input("Enter a prime number: "))
+    if not is_prime(p):
+        print ("Not Prime")
+        return
+    q = int(input("Enter another prime number: "))
+    if not is_prime(q) and q != p:
+        print ("Not Prime or Same as previous")
+        return
+    
+    n = p * q
+    z = (p - 1) * (q - 1)
+    smallest = p if p < q else q
+    e = random.randrange(2, smallest)
+    while gcd(e, z) != 1:
+        e = random.randrange(e,z)
+        
+    
+
+    for i in range(1,100):
+        if (i * e) % z == 1:
+            d = i
+            break
+
+    public_key = (n, e)
+    private_key = (n, d)
+    print (public_key, private_key)
+
+    cp = (key ** e) % n
+
+    print ("Encrypted Key:", cp)
+    
+    decrypted_key = (cp ** d) % n
+
+    print ("Decrypted Key:", decrypted_key)
+
+    decrypted_message = ""
+    for char in encrypted_message:
+        decrypted_message += chr(ord(char) - decrypted_key)
+
+    print ("Decrypted message:", decrypted_message)
+    
+main()
+
+
+
+
+
+
+
+from socket import *
+import sys
+
+sock = socket(AF_INET,SOCK_DGRAM)
+server_address = ('localhost',11000)
+
+try:
+	while True:
+		msg = input('Enter domain name: ')
+		print('Sending request for : ',msg)
+		sent = sock.sendto(msg.encode(),server_address)
+		print('Waiting to recieve to recieve ip')
+		l,addr = sock.recvfrom(4096)
+		print('Recieved : ',l.decode())
+finally:
+	print('closing socket')
+	sock.close()
+
+
+from socket import *
+import sys
+
+sock = socket(AF_INET,SOCK_DGRAM)
+server_address= ('localhost',11000)
+sock.bind(server_address)
+
+while True:
+	print('Waiting to recieve requests')
+	data,addr = sock.recvfrom(4096)
+	print('Recieved request: ',data.decode())
+	if data:
+                ip = "DNS_record_not_found"
+                with open('dns.txt') as file:
+                        for line in file:
+                                domainList = line.split()
+                                print(domainList)
+                                if domainList[0] == data.decode():
+                                        ip = domainList[1]
+                        
+                print('Sending : ',ip)
+                sent = sock.sendto(ip.encode(),addr)
+	else:
+                print('Sending : "empty"')
+                sent = sock.sendto("empty".encode(),addr)
+
+
+
+
+
+import java.util.*;
+import java.io.*;
+
+class diffie_hellman {
+      
+      void generate() {  
+         Scanner sc = new Scanner(System.in);
+         
+         int p, g, Xa, Xb, Ya, Yb, Ka, Kb;
+         
+         System.out.println("Enter the value of Prime modulus 'p' : ");
+         p =  sc.nextInt();
+         
+         System.out.println("Enter the value of generator 'g' : ");
+         g = sc.nextInt();
+         
+         System.out.println("Enter the value of private random number 'Xa': ");
+         Xa = sc.nextInt();
+         
+         //System.out.println("Enter the value of private random number 'Xb': ");
+         Xb = sc.nextInt();
+         
+         if(Xa < p && Xb < p) {
+         
+            Ya = (int)((Math.pow(g, Xa))%p);
+            Yb = (int)((Math.pow(g, Xb))%p);
+           
+            System.out.println("Sending Ya= "+Ya+" to Bob ");
+            System.out.println("Sending Yb= "+Yb+" to ALice");
+           
+            Ka = (int)((Math.pow(Yb, Xa))%p);
+            Kb = (int)((Math.pow(Ya, Xb))%p);
+           
+            if(Ka == Kb) 
+                System.out.println("Key K = "+Ka+" generated successfully");
+            else
+                System.out.println("Key not generated ");
+         }
+         
+         else
+            System.out.println("Values of Xa and Xb are not less than the prime modulus ");
+
+   }
+}
+
+class diffie_hellman_main {
+   public static void main(String[] args) {
+      diffie_hellman dh = new diffie_hellman();
+      dh.generate();
+   }
+}
+
+
+import xmlrpc.client
+
+with xmlrpc.client.ServerProxy("http://localhost:8000/") as proxy:
+    print("3 is even: %s" % str(proxy.is_even(3)))
+    print("100 is even: %s" % str(proxy.is_even(100)))
+
+
+
+from xmlrpc.server import SimpleXMLRPCServer
+
+def is_even(n):
+    return n % 2 == 0
+
+server = SimpleXMLRPCServer(("localhost", 8000))
+print("Listening on port 8000...")
+server.register_function(is_even, "is_even")
+server.serve_forever()
