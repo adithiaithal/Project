@@ -1,0 +1,60 @@
+Mclass.java 
+public class Mclass 
+{ 
+public static void main(String[] args) 
+{ 
+Furnace fr=new Furnace(); 
+CurrentTemp ct=new CurrentTemp(); 
+DisplayTemp dt=new DisplayTemp(); 
+fr.addObserver(ct); 
+fr.addObserver(dt); 
+fr.setTemp(56); 
+fr.setTemp(6); 
+} 
+} 
+
+
+Furnace.java 
+Import java.util.Observable; 
+public class Furnace extends Observable { 
+public int temp; 
+public void setTemp(int a) 
+{ 
+temp=a; 
+setChanged(); 
+notifyObservers(temp); 
+} 
+} 
+CurrentTemp.java 
+Import java.util.Observable; 
+Import java.util.Observer; 
+public class CurrentTemp implements Observer 
+{ 
+public void update(Observable o, Object arg) 
+{ 
+int t=(Integer)arg; 
+System.out.println("The current temperature is "+t); 
+} 
+} 
+DisplayTemp.java 
+Import java.util.Observable; 
+Import java.util.Observer; 
+public class DisplayTemp implements Observer 
+{ 
+public void update(Observable o, Object arg) 
+{ 
+int t=(Integer)arg; 
+if(t>35) 
+System.out.println("Temperature is High"); 
+else if(t<10) 
+System.out.println("Temperature is low"); 
+else 
+System.out.println("Temperature is moderate"); 
+} 
+} 
+
+Output: 
+Temperature is High 
+The current temperature is 56 
+Temperature is low 
+The current temperature is 6 
