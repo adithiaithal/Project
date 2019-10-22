@@ -1,0 +1,704 @@
+1A
+----
+package com.aj.mad_lab_1;
+
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    int flag=0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        printMsg("onCreate() called");
+        Button btnfinish=findViewById(R.id.button2);
+        btnfinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button btngreen=findViewById(R.id.button1);
+        btngreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout rel=(RelativeLayout) findViewById(R.id.activity_main);
+                if(flag==1) {
+                    rel.setBackgroundColor(Color.WHITE);
+                    flag=0;
+                }
+                else {
+                    rel.setBackgroundColor(Color.GREEN);
+                    flag=1;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        printMsg("onStart() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        printMsg("onStop() called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        printMsg("onDestory() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        printMsg("onPause() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        printMsg("onResume() called");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        printMsg("onRestart() called");
+    }
+
+    void printMsg(String s)
+    {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+}
+
+----
+1B
+----
+package com.sindhu.prg2;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Arrays;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btnCalc;
+    TextView result;
+    EditText t1,t2,t3;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btnCalc = (Button)findViewById(R.id.btnCalculate);
+        result = (TextView)findViewById(R.id.result);
+        t1 = (EditText)findViewById(R.id.test1);
+        t2 = (EditText)findViewById(R.id.test2);
+        t3 = (EditText)findViewById(R.id.test3);
+        final int[] marks = new int[3];
+ btnCalc.setOnClickListener(new View.OnClickListener() {
+            @Override
+ public void onClick(View v) {
+    if (t1.getText().toString()==null||                t2.getText().toString().trim().length()==0 || t3.getText().toString().trim().length()==0){
+                    Toast.makeText(MainActivity.this,"Plz enter data",Toast.LENGTH_SHORT).show();
+                }
+ int m1 =Integer.parseInt(t1.getText().toString());
+ int m2 =Integer.parseInt(t2.getText().toString());
+ int m3 =Integer.parseInt(t3.getText().toString());
+               
+ marks[0] =m1;
+marks[1]=m2;
+ marks[2]=m3;
+   Arrays.sort(marks);
+      int b1 =marks[1];
+      int b2 =marks[2];
+      int sum =b1 +b2;
+      int total =sum +8;
+     if(total <20){
+        result.setText("Fail");
+          result.setTextColor(Color.RED);
+                }
+                else {
+                    result.setText("Pass");
+                    result.setTextColor(Color.GREEN);
+                }
+
+
+
+            }
+        });
+    }
+}
+
+----
+2A
+----
+Strings.xml
+ 
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MyAndroidApp</string>
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Hello</item>
+        <item>Good Evening</item>
+        <item>Goodbye</item>
+        <item>Please</item>
+        <item>Sorry</item>
+        <item>Thank you</item>
+     </string-array>
+
+</resources>
+
+ActivityMain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="50dp"
+    tools:context=".MainActivity">
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/country_arrays"
+        android:id="@+id/ch"
+        android:textAlignment="center"
+        android:layout_marginTop="26dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Translate"
+        android:id="@+id/translate"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/ch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+</RelativeLayout>
+MainActivity.Java
+
+package com.sindhu.translation;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.HashMap;
+
+public class MainActivity extends AppCompatActivity {
+    Spinner c;
+    TextView t;
+    HashMap x;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        c=(Spinner)findViewById(R.id.ch);
+        t=(TextView)findViewById(R.id.text);
+        Button b=(Button)findViewById(R.id.translate);
+        x=new HashMap();
+        x.put("Hello","Bonjour");
+        x.put("Goodbye","Au Revoir");
+        x.put("Good Evening","Bonsoir");
+        x.put("Good Night","Bonne nuit");
+        x.put("Please","S'il vous plaît");
+        x.put("Thank you","Merci");
+        x.put("Sorry","Pardon");
+        x.put("It's okay", "Ça va");
+        x.put("It's good","C'est bien");
+        x.put("We","Nous");
+        x.put("You","Vous");
+        x.put("Mr.","Monsieur");
+        x.put("Miss","Mademoiselle");
+        x.put("Red","Rouge");
+        x.put("Black","Noir");
+        x.put("Blue","Bleu");
+        x.put("Yellow","Jaune");
+        x.put("Bread","Pain");
+        x.put("Wine","Du vin");
+        x.put("Chicken","poulet");
+        x.put("Rice","Riz");
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                String a=c.getSelectedItem().toString();
+                if(x.containsKey(a))
+                {
+                    t.setText(x.get(a).toString());
+                }
+            }
+        });
+
+    }
+}
+----
+2B
+----
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GROCERY APP"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv1"
+
+        >
+    </ListView>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:text="SUBMIT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lv" />
+
+    <TextView
+        android:id="@+id/res"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:text=" TOTAL :"
+
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+------------------
+myadapter.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/tv_adapter"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cst_adapter"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="228dp"
+        android:layout_marginRight="228dp"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tv_adapter"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_adapter"
+        android:layout_width="50dp"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="100dp"
+
+
+        android:layout_marginRight="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/cst_adapter"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+-----------------------------
+
+Mainactivity.java
+
+package com.example.myapplication;
+
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MyActivity";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final String[] names = {"Bread","Butter","Beer","Jam"};
+        final int[] cost = {20,30,100,50};
+
+        final ListView lv = (ListView)findViewById(R.id.lv);
+
+        MyAdapter adp = new MyAdapter(this,names,cost);
+        lv.setAdapter(adp);
+
+        Button btn = (Button)findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int total = 0;
+                for(int i=0;i<names.length;i++)
+                {
+                    Log.d(TAG,"i");
+                    View v = lv.getChildAt(i);
+                    EditText et = (EditText)v.findViewById(R.id.et_adapter);
+                    String q = et.getText().toString();
+                    Log.d(TAG,"q: "+q);
+                    int qty;
+                    if(q!=null)
+                        qty = Integer.valueOf(q);
+                    else
+                        qty = 0;
+                    total = total + qty*cost[i];
+                }
+
+                TextView res = (TextView)findViewById(R.id.res);
+                res.setText("Total cost: "+String.valueOf(total));
+                res.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+}
+
+--------------------
+
+MyAdapter.java
+
+package com.example.myapplication;
+
+import android.content.Context;
+//import android.support.annotation.NonNull;
+//import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyAdapter extends ArrayAdapter<String> {
+
+    private Context mContext;
+    private String[] names;
+    private int[] cost;
+
+    public MyAdapter(Context context, String[] nm,int[] cst)
+    {
+        super(context,R.layout.myadapter,nm);
+        mContext = context;
+        names = nm;
+        cost = cst;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        LayoutInflater inf = LayoutInflater.from(getContext());
+        View cus_view = inf.inflate(R.layout.myadapter,parent,false);
+
+        TextView tv = (TextView)cus_view.findViewById(R.id.tv_adapter);
+        tv.setText(names[position]);
+
+        TextView cst = (TextView)cus_view.findViewById(R.id.cst_adapter);
+        cst.setText("Cost : " + String.valueOf(cost[position]));
+        return cus_view;
+    }
+}
+----
+3
+----
+build.gradle (Module)  (add the following)
+implementation 'com.android.support:design:26.1.0'
+implementation 'com.android.support:support-v4:26.1.0'
+implementation 'com.android.support:support-annotations:27.1.1'
+ 
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Swipe left to view the navigation bar"
+            android:textSize="18sp" />
+    </FrameLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/my_menu" />
+
+</android.support.v4.widget.DrawerLayout>
+ 
+ 
+MainActivity.xml
+ 
+package com.example.paras.q3;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.MenuItem;
+
+public class MainActivity extends AppCompatActivity {
+
+    private DrawerLayout mDrawerLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                if (menuItem.getItemId() == R.id.contacts)
+                    startActivity(new Intent(Intent.ACTION_DEFAULT, ContactsContract.Contacts.CONTENT_URI));
+                else if (menuItem.getItemId() == R.id.browser) {
+                    String url = "http://www.google.com";
+                    Intent google = new Intent(Intent.ACTION_VIEW);
+                    google.setData(Uri.parse(url));
+                    startActivity(google);
+                }
+                else if (menuItem.getItemId() == R.id.search)
+                    startActivity(new Intent(getApplicationContext(), SearchViewHandler.class));
+                else if (menuItem.getItemId() == R.id.map)
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?z=4&q=current+location")));
+                return true;
+            }
+        });
+    }
+}
+ 
+AndroidManifest.xml (Add activity)
+ 
+<activity android:name=".SearchViewHandler"/>
+ 
+ 
+SearchViewHandler.java
+ 
+package com.example.paras.q3;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
+import java.util.ArrayList;
+
+public class SearchViewHandler extends AppCompatActivity implements SearchView.OnQueryTextListener {
+    SearchView searchView;
+    ListView listView;
+    ArrayList<String> list;
+    ArrayAdapter<String> adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.searchview_activity);
+
+        listView = (ListView) findViewById(R.id.lv1);
+
+        list = new ArrayList<>();
+        list.add("apple");
+        list.add("banana");
+        list.add("pineapple");
+        list.add("orange");
+        list.add("lychee");
+        list.add("guava");
+        list.add("peach");
+        list.add("melon");
+        list.add("watermelon");
+        list.add("papaya");
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if(!list.contains(query)) {
+            Toast.makeText(SearchViewHandler.this, "No Match found", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return false;
+    }
+}
+ 
+my_menu.xml
+ 
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/contacts"
+        android:title="Contacts" />
+    <item
+        android:id="@+id/browser"
+        android:title="Browser" />
+    <item
+        android:id="@+id/map"
+        android:title="Map" />
+    <item
+        android:id="@+id/search"
+        android:title="Search" />
+</menu>
+ 
+searchview_activity.xml
+ 
+ 
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SearchView android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ListView android:id="@+id/lv1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </ListView>
+
+</LinearLayout>
